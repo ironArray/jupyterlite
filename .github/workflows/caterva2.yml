@@ -1,0 +1,27 @@
+name: Caterva2
+
+on:
+  push:
+    branches:
+      - caterva2
+
+env:
+  CACHE_EPOCH: 4
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      BUILDING_IN_CI: 1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build dist
+        uses: ./.github/actions/build-dist
+
+      - name: Upload (dist)
+        uses: actions/upload-artifact@v4
+        with:
+          name: caterva2 dist
+          path: ./dist

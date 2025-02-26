@@ -572,6 +572,7 @@ export class BrowserStorageDrive implements Contents.IDrive {
 
     // Otherwise fallback to our default drive implementation
     path = decodeURIComponent(path);
+    //this.c2upload(path, options.content);
 
     // process the file if coming from an upload
     const ext = PathExt.extname(options.name ?? '');
@@ -679,7 +680,8 @@ export class BrowserStorageDrive implements Contents.IDrive {
       item = { ...item, size: 0 };
     }
 
-    await (await this.storage).setItem(path, item);
+    //await (await this.storage).setItem(path, item);
+    this.c2upload(path, item.content);
 
     this._fileChanged.emit({
       type: 'save',
@@ -688,6 +690,15 @@ export class BrowserStorageDrive implements Contents.IDrive {
     });
 
     return item;
+  }
+
+  async c2upload(path: string, content: object) {
+    const filename = path.split('/').pop();
+    const jsonstr = JSON.stringify(content);
+    const blob = new Blob([jsonstr]);
+    const formData = new FormData();
+    formData.append('file', blob, filename);
+    fetch(`../../../api/upload/${path}`, { method: 'POST', body: formData });
   }
 
   /**

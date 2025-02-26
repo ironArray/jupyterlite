@@ -1,6 +1,12 @@
 name: UI Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore:
+      - caterva2
+  pull_request:
+    branches:
+      - '*'
 
 env:
   CACHE_EPOCH: 0

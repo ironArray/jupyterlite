@@ -1,8 +1,8 @@
 name: Check Release
 on:
   push:
-    branches:
-      - '*'
+    branches-ignore:
+      - caterva2
   pull_request:
     branches:
       - '*'
